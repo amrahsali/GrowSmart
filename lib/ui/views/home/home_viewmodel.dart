@@ -30,7 +30,7 @@ class HomeViewModel extends BaseViewModel {
    // DashboardView(),
     DashboardView(),
     NotificationView(),
-    ProfileScreen(),
+    ProfileView(),
     //const CartView(),
    // const NotificationView(),
     //const ProfileView()

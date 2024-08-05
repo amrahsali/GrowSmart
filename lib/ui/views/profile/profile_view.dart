@@ -1,269 +1,164 @@
-import 'package:growsmart/app/app.locator.dart';
-import 'package:growsmart/app/app.router.dart';
-import 'package:growsmart/core/utils/local_store_dir.dart';
-import 'package:growsmart/core/utils/local_stotage.dart';
-import 'package:growsmart/state.dart';
+import 'package:flutter/material.dart';
 import 'package:growsmart/ui/common/app_colors.dart';
 import 'package:growsmart/ui/common/ui_helpers.dart';
-import 'package:growsmart/ui/components/profile_picture.dart';
 import 'package:growsmart/ui/views/profile/profile_details.dart';
-import 'package:growsmart/ui/views/profile/support.dart';
-import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
-import '../../../core/network/api_response.dart';
-import '../../../core/network/interceptors.dart';
-import 'profile_viewmodel.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
 
   @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  bool isFaceIdEnabled = false;
+
+  @override
+  @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ProfileViewModel>.reactive(
-      viewModelBuilder: () => ProfileViewModel(),
-      onModelReady: (viewModel) {
-        // Make API call to get profile data when the ViewModel is ready
-        viewModel.getProfile();
-      },
-      builder: (context, viewModel, child) {
-        return Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: const Text("Profile"),
-            ),
-            body: ListView(
-              padding: const EdgeInsets.all(20),
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Profile"),
+      ),
+      body: ListView(
+        children: [
+          // Profile Picture and Name
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              color: kcPrimaryColor,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          // barrierColor: Colors.black.withAlpha(50),
-                          // backgroundColor: Colors.transparent,
-                          backgroundColor: Colors.black.withOpacity(0.7),
-                          builder: (BuildContext context) {
-                            return const FractionallySizedBox(
-                              heightFactor: 1.0, // 70% of the screen's height
-                              child: ProfileScreen(),
-                            );
-                          },
-                        );
-                        // viewModel.updateProfilePicture();
-                      },
-                      child: Image.asset(
-                        'assets/images/reminder.png', // Replace with your image path
-                        height: 150,
-                      ),
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.grey.shade200,
+                      backgroundImage: AssetImage('assets/images/profile.png'),
                     ),
-                    horizontalSpaceSmall,
+                    horizontalSpaceMedium,
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${profile.value.firstname} ${profile.value.lastname}",
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          "Amrah sali",
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: kcWhiteColor),
                         ),
-                        Text(profile.value.country?.name ?? "")
+                        Text(
+                          "johndoe@example.com",
+                          style: TextStyle(color: kcWhiteColor),
+                        ),
                       ],
-                    ),
-                    horizontalSpaceLarge,
-                    GestureDetector(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.black.withOpacity(0.7),
-                            builder: (BuildContext context) {
-                              return const FractionallySizedBox(
-                                heightFactor: 1.0, // 70% of the screen's height
-                                child: ProfileScreen(),
-                              );
-                            },
-                          );
-                          // viewModel.updateProfilePicture();
-                        },
-                        child: const Icon(
-                          Icons.edit,
-                          color: kcPrimaryColor,
-                        )),
+                    )
                   ],
                 ),
-                viewModel.showChangePP
-                    ? Column(
-                        children: [
-                          verticalSpaceMedium,
-                          InkWell(
-                            onTap: () {
-                              viewModel.updateProfilePicture();
-                            },
-                            child: const Text(
-                              "Change Profile Picture",
-                              style: TextStyle(
-                                color: kcSecondaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                    : const SizedBox(),
-                verticalSpaceLarge,
-                ListTile(
-                  onTap: () {
-                    locator<NavigationService>()
-                        .navigateToWallet()
-                        .whenComplete(() => viewModel.getProfile());
-                  },
-                  leading: const Icon(
-                    Icons.wallet,
-                    color: kcSecondaryColor,
+              ),
+            ),
+          ),
+          
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.person, color: kcPrimaryColor,),
+                    title: Text("My Account"),
+                    subtitle: Text("Make changes to your account"),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProfilePage()),
+                      );                    },
                   ),
-                  title: const Text("Wallet"),
-                ),
-                ListTile(
-                  onTap: () {},
-                  leading: const Icon(
-                    Icons.wallet,
-                    color: kcSecondaryColor,
+
+                  // Save to Beneficiaries
+                  // Save to Beneficiaries
+                  ListTile(
+                    leading: Icon(Icons.save_alt, color: kcPrimaryColor,),
+                    title: Text("Saved Beneficiary"),
+                    subtitle: Text("Manage your saved account"),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                    },
                   ),
-                  title: const Text("My orders"),
-                ),
-                ListTile(
-                  onTap: () {
-                    // locator<NavigationService>().navigateToTrack();
-                  },
-                  leading: const Icon(
-                    Icons.wallet,
-                    color: kcSecondaryColor,
-                  ),
-                  title: const Text("My tickets"),
-                ),
-                ListTile(
-                  onTap: () {
-                    // locator<NavigationService>().navigateToTrack();
-                  },
-                  leading: const Icon(
-                    Icons.card_giftcard_outlined,
-                    color: kcSecondaryColor,
-                  ),
-                  title: const Text("Referrals"),
-                ),
-                ListTile(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (c) {
-                      return const Support();
-                    }));
-                  },
-                  leading: const Icon(
-                    Icons.support_agent,
-                    color: kcSecondaryColor,
-                  ),
-                  title: const Text("Support"),
-                ),
-                ListTile(
-                  onTap: () {
-                    locator<NavigationService>().navigateToChangePasswordView();
-                  },
-                  leading: const Icon(
-                    Icons.lock_outlined,
-                    color: kcSecondaryColor,
-                  ),
-                  title: const Text("Change password"),
-                ),
-                ListTile(
-                  onTap: () {},
-                  leading: const Icon(
-                    Icons.color_lens,
-                    color: kcSecondaryColor,
-                  ),
-                  title: const Text("Dark Theme"),
-                  trailing: ValueListenableBuilder<AppUiModes>(
-                    valueListenable: uiMode,
-                    builder: (context, value, child) => Switch(
-                      value: value == AppUiModes.dark ? true : false,
-                      onChanged: (val) async {
-                        if (value == AppUiModes.light) {
-                          uiMode.value = AppUiModes.dark;
-                          await locator<LocalStorage>()
-                              .save(LocalStorageDir.uiMode, "dark");
-                        } else {
-                          uiMode.value = AppUiModes.light;
-                          await locator<LocalStorage>()
-                              .save(LocalStorageDir.uiMode, "light");
-                        }
+
+
+                  ListTile(
+                    leading: Icon(Icons.lock_outline, color: kcPrimaryColor,),
+                    title: Text("Add Face/Fingerprint ID"),
+                    subtitle: Text("Manage your device security"),
+                    trailing: Switch(
+                      value: isFaceIdEnabled,
+                      activeColor: kcPrimaryColor,
+                      onChanged: (bool value) {
+                        setState(() {
+                          isFaceIdEnabled = value;
+                        });
                       },
                     ),
                   ),
-                ),
-                ListTile(
-                  onTap: () async {
-                    final res = await locator<DialogService>()
-                        .showConfirmationDialog(
-                            title: "Are you sure?",
-                            cancelTitle: "No",
-                            confirmationTitle: "Yes");
-                    if (res!.confirmed) {
-                      ApiResponse res = await repo.logOut();
-                      if (res.statusCode == 200) {
-                        userLoggedIn.value = false;
-                        await locator<LocalStorage>()
-                            .delete(LocalStorageDir.authToken);
-                        await locator<LocalStorage>()
-                            .delete(LocalStorageDir.authUser);
-                        await locator<LocalStorage>()
-                            .delete(LocalStorageDir.cart);
-                        await locator<LocalStorage>()
-                            .delete(LocalStorageDir.authRefreshToken);
-                        return locator<NavigationService>()
-                            .clearStackAndShow(Routes.authView);
-                      }
-                    }
-                  },
-                  leading: const Icon(
-                    Icons.logout,
-                    color: kcSecondaryColor,
-                  ),
-                  title: const Text("Signout"),
-                ),
-                verticalSpaceLarge,
-                Opacity(
-                  opacity: 0.4, // Set the opacity to 0.7 (70% opacity)
-                  child: ListTile(
-                    onTap: () async {
-                      locator<NavigationService>()
-                          .navigateToDeleteAccountView();
+
+                  ListTile(
+                    leading: Icon(Icons.privacy_tip_outlined, color: kcPrimaryColor,),
+                    title: Text("Permissions & Privacy"),
+                    subtitle: Text("Further secure your account for safety"),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      // Navigate to Add Face/Fingerprint ID screen
                     },
-                    leading: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
-                    title: const Text("delete account"),
                   ),
-                )
-              ],
-            ));
-      },
+
+                  ListTile(
+                    leading: Icon(Icons.logout, color: kcPrimaryColor,),
+                    title: Text("Log out"),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      // Navigate to Add Face/Fingerprint ID screen
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              "More",
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.notification_important_outlined, color: kcPrimaryColor,),
+                title: Text("Help & Support"),
+                trailing: Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  // Navigate to Add Face/Fingerprint ID screen
+                },
+              ),
+            ),
+          ),
+
+          // My Account
+        ],
+      ),
     );
   }
 
-  // @override
-  // void onViewModelReady(ProfileViewModel viewModel) {
-  //    viewModel.getProfile();
-  //   super.onViewModelReady(viewModel);
-  // }
-
-  @override
-  ProfileViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      ProfileViewModel();
+  void main() {
+    runApp(MaterialApp(
+      home: ProfileView(),
+    ));
+  }
 }

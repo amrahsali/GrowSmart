@@ -72,7 +72,8 @@ class NotificationView extends StackedView<NotificationViewModel> {
                                 //locator<NavigationService>().clearStackAndShow(Routes.onboardingView3);
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Payment()),
+                                  MaterialPageRoute(
+                                      builder: (context) => Payment()),
                                 );
                               },
                               color: kcPrimaryColor,

@@ -141,7 +141,8 @@ class ApiService {
           return ApiResponse(response);
 
       }
-    } on DioError catch (e) {
+    }
+    on DioError catch (e) {
       log.e(e.message);
       if (e.type == DioErrorType.connectTimeout) {
         return ApiResponse(
@@ -152,13 +153,13 @@ class ApiService {
           ),
         );
       } else if (e.type == DioErrorType.other) {
-        return ApiResponse(
-          Response(
-            statusCode: 101,
-            data: "Network is unreachable",
-            requestOptions: RequestOptions(path: ''),
-          ),
-        );
+        //return ApiResponse(
+          // Response(
+          //   statusCode: 101,
+          //   data: "Network is unreachable",
+          //   requestOptions: RequestOptions(path: ''),
+          // ),
+        //);
       } else if (e.type == DioErrorType.receiveTimeout) {
         return ApiResponse(
           Response(
