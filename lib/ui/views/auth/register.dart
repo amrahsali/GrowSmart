@@ -3,6 +3,7 @@ import 'package:growsmart/ui/common/app_colors.dart';
 import 'package:growsmart/ui/components/submit_button.dart';
 import 'package:growsmart/ui/components/text_field_widget.dart';
 import 'package:growsmart/ui/views/auth/auth_viewmodel.dart';
+import 'package:growsmart/ui/views/auth/password.dart';
 import 'package:growsmart/utils/country_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -78,7 +79,7 @@ class _RegisterState extends State<Register> {
               children: [
                 Expanded(
                   child: TextFieldWidget(
-                    hint: "Firstname",
+                    hint: "Fullname",
                     controller: model.firstname,
                     inputType: TextInputType.name,
                     validator: (value) {
@@ -243,12 +244,17 @@ class _RegisterState extends State<Register> {
             // const Text('Apple/Google is not a sponsor nor is involved in any way with our raffles/contest or sweepstakes.'),
             // verticalSpaceMedium,
             SubmitButton(
-              isLoading: model.isBusy,
+              isLoading: false,
               label: "Continue",
               submit: () {
-                if (_formKey.currentState!.validate()) {
-                  model.register();
-                }
+                // if (_formKey.currentState!.validate()) {
+                //   model.register();
+                // }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Password(updateIsLogin: (bool ) {  },)),
+                );
               },
               color: kcPrimaryColor,
               boldText: true,
@@ -274,9 +280,7 @@ class _RegisterState extends State<Register> {
                 ),
               )
             ]),
-
             verticalSpaceMedium,
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[

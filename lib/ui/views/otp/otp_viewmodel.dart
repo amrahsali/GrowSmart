@@ -28,9 +28,9 @@ class OtpViewModel extends BaseViewModel {
           return SuccessPage(
             title: "Congratulations!",
             description: "Your account is ready!",
-            callback: () {
-              locator<NavigationService>().replaceWithAuthView();
-            },
+            //callback: () {
+             // locator<NavigationService>().replaceWithAuthView();
+            //},
           );
         }));
       } else {

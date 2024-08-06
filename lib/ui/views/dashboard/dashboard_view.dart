@@ -17,6 +17,8 @@ import 'package:stacked/stacked.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../core/data/models/product.dart';
+import '../ai/nurtureAI_view.dart';
+import '../profile/doctor_details.dart';
 import 'dashboard_viewmodel.dart';
 
 /// @author Amrah uthman sali
@@ -114,7 +116,14 @@ class DashboardView extends StackedView<DashboardViewModel> {
             SubmitButton(
                 isLoading: false,
                 label: "Start health assessment",
-                submit: () {},
+                submit: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChatDetailPage(driverName: '', driverId: '', rideId: '',)),
+                  );
+
+                },
                 color: kcPrimaryColor),
             verticalSpaceMedium,
             const Padding(
@@ -341,6 +350,12 @@ class DashboardView extends StackedView<DashboardViewModel> {
                         width: 400,
                         child: ElevatedButton(
                           onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Doctors_details()),
+                            );
+
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: kcSecondaryColor,

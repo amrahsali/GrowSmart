@@ -21,88 +21,115 @@ class OtpView extends StackedView<OtpViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            leading: InkWell(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: const Icon(
-                Icons.arrow_back_ios,
-                color: kcWhiteColor,
+      body: Center(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              leading: InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: kcBlackColor,
+                ),
               ),
             ),
-            expandedHeight: 200,
-            flexibleSpace:  Positioned(
-              top: 30,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Image.asset("assets/images/logo.png"),
-            )
-          ),
-          SliverList(
-              delegate: SliverChildListDelegate(
-            [
-              Container(
-                padding: const EdgeInsets.all(30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    verticalSpaceLarge,
-                    const Text(
-                      "OTP Verification",
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Panchang"
-                      ),
-                    ),
-                    const Text(
-                      "We have sent a code to your Email Address",
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    verticalSpaceMedium,
-                    TextFieldWidget(
-                        hint: "Enter Code", controller: viewModel.otp),
-                    Row(
-                        children:  [
-                          const Text(
-                            "Didnt get the OTP? ",
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
+            SliverList(
+                delegate: SliverChildListDelegate(
+              [
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        verticalSpaceLarge,
+                        const Text(
+                          "Enter OTP",
+                          style: TextStyle(
+                              fontSize: 25,
                           ),
-                          GestureDetector(
-                            onTap: () {
+                        ),
+                        verticalSpaceMedium,
+                        const Text(
+                          "We’ve sent an OTP code to your email,",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        const Text(
+                          "User53684@gmail.com",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        verticalSpaceMedium,
+                        TextFieldWidget(
+                            hint: "Enter Code", controller: viewModel.otp),
+                        verticalSpaceMedium,
 
-                            },
-                            child: const Text(
-                              "Click here to resend",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: kcSecondaryColor,
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:  [
+                              const Text(
+                                "We will resend the code in",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                          )
+                              GestureDetector(
+                                onTap: () {
 
-                        ]
+                                },
+                                child: const Text(
+                                  "59 s",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: kcSecondaryColor,
+                                  ),
+                                ),
+                              )
+
+                            ]
+                        ),
+                        verticalSpaceMedium,
+                        SubmitButton(
+                          isLoading: viewModel.isBusy,
+                          label: "Verify",
+                          submit: () => viewModel.verify(email, context),
+                          boldText: true,
+                          color: kcPrimaryColor,
+                        ),
+                        verticalSpaceMedium,
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children:  [
+                              const Text(
+                                "Remembered password?",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+
+                                },
+                                child: const Text(
+                                  "Sign in",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: kcSecondaryColor,
+                                  ),
+                                ),
+                              )
+
+                            ]
+                        ),
+                      ],
                     ),
-                    verticalSpaceMedium,
-                    SubmitButton(
-                      isLoading: viewModel.isBusy,
-                      label: "Verify account",
-                      submit: () => viewModel.verify(email, context),
-                      boldText: true,
-                      color: kcPrimaryColor,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ))
-        ],
+                  ),
+                )
+              ],
+            ))
+          ],
+        ),
       ),
     );
   }

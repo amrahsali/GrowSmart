@@ -8,17 +8,17 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:video_player/video_player.dart';
 
-import 'onboarding_viewmodel.dart';
+import '../onboarding/onboarding_viewmodel.dart';
 
-class OnboardingView extends StackedView<OnboardingViewModel> {
-  const OnboardingView({Key? key}) : super(key: key);
+class Doctors_details extends StackedView<OnboardingViewModel> {
+  const Doctors_details({Key? key}) : super(key: key);
 
   @override
   Widget builder(
-    BuildContext context,
-    OnboardingViewModel viewModel,
-    Widget? child,
-  ) {
+      BuildContext context,
+      OnboardingViewModel viewModel,
+      Widget? child,
+      ) {
     return Scaffold(
       body: Container(
         color: kcPrimaryColor, // Set the background color to white
@@ -49,8 +49,8 @@ class OnboardingView extends StackedView<OnboardingViewModel> {
 
   @override
   OnboardingViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
+      BuildContext context,
+      ) =>
       OnboardingViewModel();
 
   Widget indicator(bool selected) {

@@ -2,24 +2,25 @@
 import 'package:growsmart/ui/common/app_colors.dart';
 import 'package:growsmart/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:growsmart/ui/components/submit_button.dart';
 
 
 
-/// @author George David
-/// email: georgequin19@gmail.com
-/// Feb, 2024
+/// @author Amrah sali
+/// email: saliamrah@gmail.com
+/// jul, 2024
 ///
 
 
 class SuccessPage extends StatefulWidget {
   final String title;
   final String description;
-  final Function callback;
+  //final Function callback;
 
   const SuccessPage({
     required this.title,
     required this.description,
-    required this.callback,
+    //required this.callback,
     Key? key,
   }) : super(key: key);
 
@@ -39,19 +40,25 @@ class _SuccessPageState extends State<SuccessPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.asset(
+                "assets/images/sucess.png",
+              ),
               Text(
                 widget.title,
                 style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: kcSecondaryColor),
+                    color: kcBlackColor),
               ),
               verticalSpaceSmall,
-              Text(
-                widget.description,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: kcWhiteColor,
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  widget.description,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: kcBlackColor,
+                  ),
                 ),
               ),
               verticalSpaceMedium,
@@ -60,13 +67,21 @@ class _SuccessPageState extends State<SuccessPage> {
                     backgroundColor:
                     MaterialStateProperty.all(kcWhiteColor)),
                 onPressed: () {
-                  widget.callback();
+                  //widget.callback();
                 },
-                child: const Text(
-                  "Continue",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SubmitButton(
+                    isLoading: false,
+                    label: "Continue",
+                    submit: () {
+                      {
+                        // locator<NavigationService>().clearStackAndShow(Routes.CardView);
+                      }
+
+                    },
                     color: kcPrimaryColor,
+                    boldText: true,
                   ),
                 ),
               )

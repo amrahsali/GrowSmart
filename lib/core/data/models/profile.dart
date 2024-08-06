@@ -75,6 +75,8 @@ class Profile {
     wallet = json['wallet'] != null ? Wallet.fromJson(json['wallet']) : null;
   }
 
+  get user => null;
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;

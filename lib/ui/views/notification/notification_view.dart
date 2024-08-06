@@ -29,7 +29,8 @@ class NotificationView extends StackedView<NotificationViewModel> {
       ),
       body: ValueListenableBuilder<List<AppNotification>>(
         valueListenable: notifications,
-        builder: (context, value, child) => value.isEmpty
+        builder: (context, value, child) =>
+        value.isEmpty
             ? RefreshIndicator(
                 onRefresh: () async {
                   viewModel.getNotifications();
@@ -86,7 +87,8 @@ class NotificationView extends StackedView<NotificationViewModel> {
                   ],
                 ),
               )
-            : ListView.builder(
+            :
+        ListView.builder(
                 padding: const EdgeInsets.all(20),
                 itemCount: value.length,
                 itemBuilder: (context, index) {
@@ -96,55 +98,14 @@ class NotificationView extends StackedView<NotificationViewModel> {
                       onTap: () => viewModel.readNotification(notification),
                       title: Row(
                         children: [
-                          (viewModel.isBusy &&
-                                  viewModel.loadingId == notification.id)
-                              ? const SizedBox(
-                                  height: 8,
-                                  width: 8,
-                                  child: CircularProgressIndicator())
-                              : notification.status == 1
-                                  ? const SizedBox.shrink()
-                                  : (notification.eventName!.contains('Payment')
-                                      ? const Icon(
-                                          Icons.payment_outlined,
-                                          color: kcSecondaryColor,
-                                          size: 40,
-                                        )
-                                      : notification.eventName!.contains('sent')
-                                          ? const Icon(
-                                              Icons.local_shipping_outlined,
-                                              color: kcSecondaryColor,
-                                              size: 40,
-                                            )
-                                          : notification.eventName!
-                                                  .contains('congrats')
-                                              ? const Icon(
-                                                  Icons.celebration_outlined,
-                                                  color: kcSecondaryColor,
-                                                  size: 40,
-                                                )
-                                              : const Icon(
-                                                  Icons
-                                                      .notification_important_outlined,
-                                                  color: kcSecondaryColor,
-                                                  size: 40,
-                                                )),
-                          horizontalSpaceSmall,
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  notification.eventName ?? "",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  notification.eventDescription ?? "",
-                                  style: const TextStyle(fontSize: 12),
-                                )
-                              ],
-                            ),
+                          Text(
+                            "wert",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                           "werty",
+                            style: const TextStyle(fontSize: 12),
                           ),
                         ],
                       ),

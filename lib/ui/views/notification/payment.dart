@@ -80,6 +80,11 @@ class _PaymentState extends State<Payment> {
               submit: () {
                 {
                  // locator<NavigationService>().clearStackAndShow(Routes.CardView);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CardView()),
+                  );
                 }
                 ;
               },
